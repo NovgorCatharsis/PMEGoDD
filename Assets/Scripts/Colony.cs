@@ -6,8 +6,8 @@ public class Colony : MonoBehaviour
 {
     // Index 0 = era 1 building, 1 = era 2, 2 = era 3
     [SerializeField] private Building[] buildingPrefabs;
-    [SerializeField] private int[] minBuildingsForEra = { 0, 10, 20 };
-    [SerializeField] private int[] progressToNextEra = { 100, 300, 500 };
+    [SerializeField] private int[] minBuildingsForEra = { 0, 1, 2 };
+    [SerializeField] private int[] progressToNextEra = { 50, 100, 100 };
     [SerializeField] private float tickInterval = 2f;
     [SerializeField, Range(0f, 1f)] private float minPopulationRatio = 0.6f;
     [SerializeField] private float buildingSpacing = 0.12f;
@@ -19,7 +19,9 @@ public class Colony : MonoBehaviour
     public int Era { get; private set; } = 1;
     public int Progress { get; private set; }
     public bool GameOver { get; private set; }
-    public int HumanCount => humanCount;
+    public int HumanCount => humans.Count;
+    public IReadOnlyList<Building> Buildings => buildings;
+    public IReadOnlyList<Human> Humans => humans;
     public int BuildingCount => buildings.Count;
     public int NextEraThreshold => Era <= progressToNextEra.Length ? progressToNextEra[Era - 1] : 0;
 
@@ -29,7 +31,7 @@ public class Colony : MonoBehaviour
 
     private readonly List<Building> buildings = new List<Building>();
     private Overseer overseer;
-    private int humanCount;
+    private readonly List<Human> humans = new List<Human>();
     private int totalCapacity;
     private int researchRate;
     private float timer;
@@ -55,8 +57,7 @@ public class Colony : MonoBehaviour
         timer -= tickInterval;
 
         Progress += researchRate;
-        //Debug.Log("Era " + Era);
-        //Debug.Log("Tech progress " + Progress + "/"+ NextEraThreshold);
+        //Debug.Log("Progress: " + Progress + "/" + NextEraThreshold);
         Ticked?.Invoke();
 
         if (Progress >= NextEraThreshold)
@@ -97,12 +98,12 @@ public class Colony : MonoBehaviour
 
     public void RegisterHuman(Human h)
     {
-        humanCount++;
+        humans.Add(h);
     }
 
     public void UnregisterHuman(Human h)
     {
-        humanCount--;
+        humans.Remove(h);
     }
 
     public void AddResearch(int amount)
@@ -116,7 +117,7 @@ public class Colony : MonoBehaviour
         prefab = null;
 
         if (GameOver || totalCapacity <= 0) return false;
-        if (humanCount < totalCapacity * minPopulationRatio) return false;
+        if (humans.Count < totalCapacity * minPopulationRatio) return false;
 
         int top = Mathf.Min(Era, buildingPrefabs.Length) - 1;
 

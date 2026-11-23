@@ -15,21 +15,25 @@ public class Building : MonoBehaviour
     [SerializeField] private int researchPoints = 1;
     [SerializeField] private int maxHumans = 3;
     [SerializeField] private int era = 1;
+    [SerializeField] private float radius = 0.06f;
+    [SerializeField] private float spawnGap = 0.01f;
     [SerializeField] private float spawnInterval = 8f;
     [SerializeField, Range(0f, 1f)] private float spawnChance = 0.5f;
-    [SerializeField] private float spawnRadius = 0.05f;
     [SerializeField] private SpawnEntry[] spawnEntries;
 
     public int ResearchPoints => researchPoints;
     public int MaxHumans => maxHumans;
+    public float Radius => radius;
 
     private readonly List<Human> humans = new List<Human>();
+    private Overseer overseer;
     private Colony colony;
     private float timer;
 
     private void Awake()
     {
-        colony = Overseer.Instance.Colony;
+        overseer = Overseer.Instance;
+        colony = overseer.Colony;
         colony.RegisterBuilding(this);
         timer = Random.Range(0f, spawnInterval);
     }
@@ -57,8 +61,20 @@ public class Building : MonoBehaviour
 
     public Human SpawnHuman(Human prefab)
     {
-        Vector2 offset = Random.insideUnitCircle.normalized * spawnRadius;
-        Vector3 pos = transform.position + new Vector3(offset.x, 0f, offset.y);
+        float dist = radius + prefab.Radius + spawnGap;
+        Vector3 pos = transform.position;
+
+        for (int i = 0; i < 4; i++)
+        {
+            Vector2 dir = Random.insideUnitCircle.normalized;
+            pos = transform.position + new Vector3(dir.x, 0f, dir.y) * dist;
+
+            if (overseer.GroundAt(pos, out Vector3 ground))
+            {
+                pos = ground;
+                break;
+            }
+        }
 
         Human human = Instantiate(prefab, pos, Quaternion.Euler(0f, Random.Range(0f, 360f), 0f));
         human.Era = era;

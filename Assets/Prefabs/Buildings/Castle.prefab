@@ -98,9 +98,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Building
   researchPoints: 1
   maxHumans: 3
+  era: 1
+  radius: 0.06
+  spawnGap: 0.01
   spawnInterval: 8
   spawnChance: 0.5
-  spawnRadius: 0.05
   spawnEntries: []
 --- !u!65 &-4313503632798029291
 BoxCollider:

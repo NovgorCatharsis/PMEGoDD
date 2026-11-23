@@ -132,3 +132,7 @@ MonoBehaviour:
   wanderRadius: 0.25
   idleTime: {x: 1, y: 4}
   agePerTick: 0.02
+  radius: 0.025
+  godKeepDistance: 0.3
+  fleeRadius: 0.25
+  fleeSpeedMultiplier: 3

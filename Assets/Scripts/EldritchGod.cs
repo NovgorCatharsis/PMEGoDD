@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Humans;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
@@ -14,6 +15,12 @@ public class EldritchGod : MonoBehaviour
     [SerializeField] private int baseRequired = 2;
     [SerializeField] private float multiplierStep = 0.25f;
     [SerializeField] private float taskTimeMinutes = 3f;
+    
+    [SerializeField] private int[] progressToNextStage = { 1, 2, 3 };
+
+    public int Stage { get; private set; } = 1;
+    
+    public int NextStageThreshold => Stage <= progressToNextStage.Length ? progressToNextStage[Stage - 1] : 0;
 
     public int Growth => growth;
     public float SizeMultiplier => 1f + growth * scalePerGrowth;
@@ -29,6 +36,7 @@ public class EldritchGod : MonoBehaviour
     private Vector3 targetScale;
     private int growth;
     private float multiplier = 1f;
+    private int tasksCompleted = 0;
 
     private void Awake()
     {
@@ -63,18 +71,14 @@ public class EldritchGod : MonoBehaviour
 
     public void Feed(Human human)
     {
-        Debug.Log('1');
         if (IsDead)
         {
             human.SetHeld(false);
-            Debug.Log('2');
             return;
         }
-        Debug.Log('3');
         bool counts = Task.Accepts(human);
 
         human.Die();
-        Debug.Log('4');
         
         if (!counts)
         {
@@ -91,6 +95,31 @@ public class EldritchGod : MonoBehaviour
         if (Task.Done >= Task.Required)
         {
             multiplier += multiplierStep;
+            tasksCompleted++;
+            if (tasksCompleted >= NextStageThreshold) // REWRITE NORMALLY
+            {
+                if (Stage == 1)
+                {
+                    var monster1 = GetChildGameObject(gameObject, "AR_monster_stage_1");
+                    var monster2 = GetChildGameObject(gameObject, "AR_monster_stage_2");
+                    monster1.SetActive(false);
+                    monster2.SetActive(true);
+                    
+                    // GetChildGameObject(gameObject, "AR_monster_stage_1").SetActive(false);
+                    // GetChildGameObject(gameObject, "AR_monster_stage_2").SetActive(true);
+                }
+                else
+                {
+                    var monster2 = GetChildGameObject(gameObject, "AR_monster_stage_2");
+                    var monster3 = GetChildGameObject(gameObject, "AR_monster_stage_3");
+                    monster2.SetActive(false);
+                    monster3.SetActive(true);
+                }
+                
+                tasksCompleted = 0;
+                Stage++;
+            }
+
             NewTask();
         }
         else
@@ -132,5 +161,15 @@ public class EldritchGod : MonoBehaviour
     {
         IsDead = true;
         Died?.Invoke();
+    }
+    
+    private GameObject GetChildGameObject(GameObject fromGameObject, string withName)
+    {
+        var allKids = fromGameObject.GetComponentsInChildren<Transform>(true);
+        Debug.Log(allKids);
+        var kid = allKids.FirstOrDefault(k => k.gameObject.name == withName);
+        Debug.Log(kid);
+        if (kid == null) return null;
+        return kid.gameObject;
     }
 }

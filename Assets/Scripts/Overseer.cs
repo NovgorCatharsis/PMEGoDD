@@ -13,12 +13,15 @@ public class Overseer : MonoBehaviour
     [SerializeField] private Camera camera;
     [SerializeField] private Colony colony;
     [SerializeField] private bool hidePlanesAfterGodSpawn = true;
-
+    [SerializeField] private PointerTracker pointer;
+    
+    public PointerTracker Pointer => pointer;
     public ARRaycastManager RaycastManager => raycastManager;
     public ARPlaneManager PlaneManager => planeManager;
     public Camera Cam => camera;
     public Colony Colony => colony;
     public EldritchGod God { get; private set; }
+    
 
     public event Action<EldritchGod> GodSpawned;
 
