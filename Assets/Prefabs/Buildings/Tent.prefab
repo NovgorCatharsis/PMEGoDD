@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 564d99fde2bff214290e6aa6a217dd06, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.1
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 564d99fde2bff214290e6aa6a217dd06, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.1
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 564d99fde2bff214290e6aa6a217dd06, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.1
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 564d99fde2bff214290e6aa6a217dd06, type: 3}
       propertyPath: m_LocalPosition.x
@@ -66,10 +66,66 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 564d99fde2bff214290e6aa6a217dd06, type: 3}
       propertyPath: m_Name
-      value: AR_tent
+      value: Tent
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 564d99fde2bff214290e6aa6a217dd06, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4471657663312098149}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 564d99fde2bff214290e6aa6a217dd06, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 114949685153707459}
   m_SourcePrefab: {fileID: 100100000, guid: 564d99fde2bff214290e6aa6a217dd06, type: 3}
+--- !u!1 &4420511382455695664 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 564d99fde2bff214290e6aa6a217dd06, type: 3}
+  m_PrefabInstance: {fileID: 3574070846116496481}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4471657663312098149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4420511382455695664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8be4f857919c4236808ff2369cafefeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Building
+  researchPoints: 1
+  maxHumans: 3
+  spawnInterval: 8
+  spawnChance: 0.5
+  spawnRadius: 0.05
+  spawnEntries:
+  - prefab: {fileID: 3799408940193058048, guid: debebb7337bc7ca4b92e04cda103d990, type: 3}
+    weight: 2
+  - prefab: {fileID: 3799408940193058048, guid: a271cf5b3e03c9e47a6b6ff198fdb124, type: 3}
+    weight: 1
+  - prefab: {fileID: 3799408940193058048, guid: 0b177279bd080f64791e5784985ee64d, type: 3}
+    weight: 1
+--- !u!65 &114949685153707459
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4420511382455695664}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.6464869, y: 1.6894917, z: 1.6464869}
+  m_Center: {x: 0, y: 0.8447459, z: 0}
