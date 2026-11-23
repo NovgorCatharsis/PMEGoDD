@@ -55,6 +55,8 @@ public class Colony : MonoBehaviour
         timer -= tickInterval;
 
         Progress += researchRate;
+        //Debug.Log("Era " + Era);
+        //Debug.Log("Tech progress " + Progress + "/"+ NextEraThreshold);
         Ticked?.Invoke();
 
         if (Progress >= NextEraThreshold)
@@ -68,10 +70,15 @@ public class Colony : MonoBehaviour
         EraChanged?.Invoke(Era);
 
         if (Era > progressToNextEra.Length)
-        {
-            GameOver = true;
-            Lost?.Invoke();
-        }
+            Lose();
+    }
+
+    public void Lose()
+    {
+        if (GameOver) return;
+
+        GameOver = true;
+        Lost?.Invoke();
     }
 
     public void RegisterBuilding(Building b)
@@ -145,6 +152,8 @@ public class Colony : MonoBehaviour
 
     private void OnGodSpawned(EldritchGod god)
     {
+        god.Died += Lose;
+
         Vector3 godPos = god.transform.position;
         Vector3 spot = godPos + Vector3.right * starterRadius;
 

@@ -1,14 +1,18 @@
-﻿using UnityEngine;
+﻿using Humans;
+using UnityEngine;
 
 public class Human : MonoBehaviour
 {
+    [SerializeField] private Profession profession;
     [SerializeField] private float speed = 0.04f;
     [SerializeField] private float wanderRadius = 0.25f;
     [SerializeField] private Vector2 idleTime = new Vector2(1f, 4f);
-    [SerializeField] private float agePerTick = 0.02f;
+    [SerializeField] private float agePerTick = 0.1f;
 
     private static readonly int AgeId = Shader.PropertyToID("_age");
 
+    public Profession Profession => profession;
+    public int Era { get; set; } = 1;
     public bool IsHeld => held;
 
     private Overseer overseer;
@@ -31,7 +35,6 @@ public class Human : MonoBehaviour
         body = GetComponent<MeshRenderer>();
         material = body.material;
         material.SetFloat(AgeId, 0f);
-        
 
         idleTimer = Random.Range(idleTime.x, idleTime.y);
     }

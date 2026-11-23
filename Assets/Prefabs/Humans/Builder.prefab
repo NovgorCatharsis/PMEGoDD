@@ -128,9 +128,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ade80500dc7d4c349f9773e7f39d50f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Human
+  profession: 2
   speed: 0.04
   wanderRadius: 0.25
   idleTime: {x: 1, y: 4}
+  agePerTick: 0.02
 --- !u!114 &4303554189117307818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,4 +147,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Builder
   buildInterval: 6
   buildDistance: {x: 0.08, y: 0.2}
+  minDistanceFromGod: 0.2
   attempts: 5

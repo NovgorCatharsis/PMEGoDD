@@ -14,6 +14,7 @@ public class Building : MonoBehaviour
 
     [SerializeField] private int researchPoints = 1;
     [SerializeField] private int maxHumans = 3;
+    [SerializeField] private int era = 1;
     [SerializeField] private float spawnInterval = 8f;
     [SerializeField, Range(0f, 1f)] private float spawnChance = 0.5f;
     [SerializeField] private float spawnRadius = 0.05f;
@@ -60,6 +61,7 @@ public class Building : MonoBehaviour
         Vector3 pos = transform.position + new Vector3(offset.x, 0f, offset.y);
 
         Human human = Instantiate(prefab, pos, Quaternion.Euler(0f, Random.Range(0f, 360f), 0f));
+        human.Era = era;
         humans.Add(human);
         return human;
     }
